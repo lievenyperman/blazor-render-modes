@@ -1,7 +1,6 @@
-﻿@page "/weather"
+﻿@page "/weather/no-stream-rendering"
 @using RenderModes.Shared.DTOs
 @using RenderModes.Shared.Helpers
-@attribute [StreamRendering]
 
 <PageTitle>Weather</PageTitle>
 
@@ -16,6 +15,7 @@
 else
 {
     <h3>Code behind data</h3>
+
     <table class="table">
         <thead>
             <tr>
@@ -88,5 +88,13 @@ else
                 TemperatureC = Random.Shared.Next(-20, 55),
                 Summary = summaries[Random.Shared.Next(summaries.Length)]
             }).ToArray();
+    }
+
+    private class WeatherForecast
+    {
+        public DateOnly Date { get; set; }
+        public int TemperatureC { get; set; }
+        public string? Summary { get; set; }
+        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
     }
 }
