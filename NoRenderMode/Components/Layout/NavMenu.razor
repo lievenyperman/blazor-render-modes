@@ -15,8 +15,28 @@
         </div>
 
         <div class="nav-item px-3">
-            <NavLink class="nav-link ps-3" href="weather">
-                <span class="bi bi-list-nested-nav-menu ps-2" aria-hidden="true"></span> Weather
+            <NavLink class="nav-link ps-3" href="weather" Match="NavLinkMatch.All">
+                <span class="bi bi-list-nested-nav-menu ps-2" aria-hidden="true"></span> Weather [StreamRendering]
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link ps-3 pe-3" href="weather/no-stream-rendering" Match="NavLinkMatch.All">
+                <span class="bi bi-list-nested-nav-menu ps-2" aria-hidden="true"></span> Weather No Stream Rendering
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link ps-3 pe-3" href="counter/render-mode-none" Match="NavLinkMatch.All">
+                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter No Mode
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link ps-3 pe-3" href="counter/render-mode-client" Match="NavLinkMatch.All">
+                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter Client
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link ps-3 pe-3" href="counter/render-mode-server" Match="NavLinkMatch.All">
+                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter Server
             </NavLink>
         </div>
     </nav>
