@@ -1,0 +1,139 @@
+﻿@page "/counter/auto/server"
+@using RenderModes.Shared.DTOs
+@using RenderModes.Shared.Helpers
+@rendermode InteractiveServer
+
+<PageTitle>Auto Counter</PageTitle>
+
+<h1>Auto Counter</h1>
+
+<p role="status">Current count: @currentCount</p>
+
+<div class="mt-3">
+    <button class="btn btn-primary" @onclick="IncrementCount">Count</button>
+    <button class="btn btn-primary" @onclick="GetAPIData">Get data</button>
+</div>
+
+<div class="mt-3">
+    @if (forecasts == null || forecasts.Any() == false)
+    {
+        <p><em>No forecasts yet...</em></p>
+    }
+    else
+    {
+        <h3>Code behind data</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Temp. (C)</th>
+                    <th>Temp. (F)</th>
+                    <th>Summary</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var forecast in forecasts)
+                {
+                    <tr>
+                        <td>@forecast.Date.ToShortDateString()</td>
+                        <td>@forecast.TemperatureC</td>
+                        <td>@forecast.TemperatureF</td>
+                        <td>@forecast.Summary</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+<div class="mt-3">
+    @if (todos is null || todos.Any() == false)
+    {
+        <p><em>No todos yet...</em></p>
+    }
+    else
+    {
+        <h3>Backend API data</h3>
+
+                // a table to display the todos
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Due by</th>
+                    <th>Completed</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var todo in todos)
+                {
+                    <tr>
+                        <td>@todo.Id</td>
+                        <td>@todo.Title</td>
+                        <td>@todo.DueBy</td>
+                        <td>@todo.IsComplete</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+@inject IHttpClientFactory HttpClientFactory
+@code {
+    private int currentCount = 0;
+    private WeatherForecast[]? forecasts;
+    private Todo[]? todos;
+    private bool isFetchingData = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        for (var i = 0; i < 5; i++)
+        {
+            await Task.Delay(1000);
+
+            IncrementCount();
+
+            if (i == 3)
+            {
+                await GetAPIData();
+            }
+
+            StateHasChanged();
+        };
+
+        GenerateWeatherForecasts();
+    }
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+
+    // generate weatherforecasts
+    private void GenerateWeatherForecasts()
+    {
+        var startDate = DateOnly.FromDateTime(DateTime.Now);
+        var summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
+        forecasts = Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            {
+                Date = startDate.AddDays(index),
+                TemperatureC = Random.Shared.Next(-20, 55),
+                Summary = summaries[Random.Shared.Next(summaries.Length)]
+            }).ToArray();
+    }
+
+    private async Task GetAPIData()
+    {
+        isFetchingData = true;
+        StateHasChanged();
+
+        // get data from backend API
+        var httpClient = HttpClientFactory.CreateClient(Constants.HttpClientName);
+
+        todos = await httpClient.GetFromJsonAsync<Todo[]>($"/todos");
+
+        isFetchingData = false;
+    }
+}
