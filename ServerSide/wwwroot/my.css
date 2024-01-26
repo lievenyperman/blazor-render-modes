@@ -1,0 +1,14 @@
+﻿.top-row.my-top-row {
+    background-color: #212529;
+}
+
+.my-sidebar {
+    background-color: #212529;
+    background-image: none;
+}
+
+    .my-sidebar .my-top-row {
+        background-color: #212529;
+        background-image: none;
+        border-bottom: 1px solid #d6d5d5;
+    }
