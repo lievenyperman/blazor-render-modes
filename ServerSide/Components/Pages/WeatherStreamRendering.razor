@@ -1,4 +1,6 @@
-﻿@page "/weather"
+﻿@page "/weather/ssr"
+@using RenderModes.Shared.DTOs
+@using RenderModes.Shared.Helpers
 @attribute [StreamRendering]
 
 <PageTitle>Weather</PageTitle>
@@ -13,6 +15,8 @@
 }
 else
 {
+    <h3>Code behind data</h3>
+
     <table class="table">
         <thead>
             <tr>
@@ -34,13 +38,45 @@ else
             }
         </tbody>
     </table>
+
+    <h3>Backend API data</h3>
+
+    // a table to display the todos
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Due by</th>
+                <th>Completed</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var todo in todos)
+            {
+                <tr>
+                    <td>@todo.Id</td>
+                    <td>@todo.Title</td>
+                    <td>@todo.DueBy</td>
+                    <td>@todo.IsComplete</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
 
+@inject IHttpClientFactory HttpClientFactory
 @code {
     private WeatherForecast[]? forecasts;
+    private Todo[]? todos;
 
     protected override async Task OnInitializedAsync()
     {
+        // get data from backend API
+        var httpClient = HttpClientFactory.CreateClient(Constants.HttpClientName);
+
+        todos = await httpClient.GetFromJsonAsync<Todo[]>($"/todos");
+
         // Simulate asynchronous loading to demonstrate streaming rendering
         await Task.Delay(500);
 
@@ -52,13 +88,5 @@ else
             TemperatureC = Random.Shared.Next(-20, 55),
             Summary = summaries[Random.Shared.Next(summaries.Length)]
         }).ToArray();
-    }
-
-    private class WeatherForecast
-    {
-        public DateOnly Date { get; set; }
-        public int TemperatureC { get; set; }
-        public string? Summary { get; set; }
-        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
     }
 }

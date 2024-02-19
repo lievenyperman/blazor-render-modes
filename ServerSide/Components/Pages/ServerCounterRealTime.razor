@@ -1,0 +1,28 @@
+﻿@page "/counter/realtime"
+@rendermode InteractiveServer
+@inject ICounterService CounterService
+
+<PageTitle>Counter</PageTitle>
+
+<h1>Counter</h1>
+
+<p role="status">Current count: @CounterService.GetCount()</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+@code {
+    protected override void OnInitialized()
+    {
+        CounterService.OnChange += async () => await InvokeAsync(StateHasChanged);
+    }
+
+    private void IncrementCount()
+    {
+        CounterService.IncrementCount();
+    }
+
+    public void Dispose()
+    {
+        CounterService.OnChange -= async () => await InvokeAsync(StateHasChanged);
+    }
+}

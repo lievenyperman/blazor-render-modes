@@ -15,16 +15,41 @@
         </div>
 
         <div class="nav-item px-3">
-            <NavLink class="nav-link ps-3" href="counter">
+            <NavLink class="nav-link ps-3" href="counter" Match="NavLinkMatch.All">
                 <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
             </NavLink>
         </div>
 
         <div class="nav-item px-3">
-            <NavLink class="nav-link ps-3" href="weather">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
+            <NavLink class="nav-link ps-3" href="weather/client/stream-rendering" Match="NavLinkMatch.All">
+                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather Client Stream Rendering
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link ps-3" href="weather/client/no-stream-rendering" Match="NavLinkMatch.All">
+                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather Client no Stream Rendering
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link ps-3" href="weather/server/stream-rendering" Match="NavLinkMatch.All">
+                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather Server Stream Rendering
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link ps-3" href="weather/server/no-stream-rendering" Match="NavLinkMatch.All">
+                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather Server no Stream Rendering
+            </NavLink>
+        </div>
+        
+        <div class="nav-item px-3">
+            <NavLink class="nav-link ps-3 pe-3" href="counter/realtime/client" Match="NavLinkMatch.All">
+                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter Real-Time Client
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link ps-3 pe-3" href="counter/realtime/server" Match="NavLinkMatch.All">
+                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter Real-Time Server
             </NavLink>
         </div>
     </nav>
 </div>
-

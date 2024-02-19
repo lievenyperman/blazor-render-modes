@@ -1,4 +1,5 @@
-using WebAssembly.Client.Pages;
+using RenderModes.Shared.Helpers;
+using RenderModes.Shared.Services;
 using WebAssembly.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +7,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveWebAssemblyComponents();
+
+builder.Services.AddSingleton<CounterService>();
+
+builder.Services.AddHttpClient(Constants.HttpClientName, client =>
+{
+    client.BaseAddress = new Uri(Constants.BackendAPIBaseAddress);
+});
 
 var app = builder.Build();
 

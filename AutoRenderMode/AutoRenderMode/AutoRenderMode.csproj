@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\DotNetLabDemo2024Feb24\AspireDemo23feb2024.ServiceDefaults\AspireDemo23feb2024.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\..\RenderModes.Shared\RenderModes.Shared.csproj" />
     <ProjectReference Include="..\AutoRenderMode.Client\AutoRenderMode.Client.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.1" />
   </ItemGroup>

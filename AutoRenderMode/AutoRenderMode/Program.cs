@@ -1,14 +1,34 @@
-using AutoRenderMode.Client.Pages;
 using AutoRenderMode.Components;
+using RenderModes.Shared.Helpers;
+using RenderModes.Shared.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.AddServiceDefaults();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
 
+builder.Services.AddSingleton<CounterService>();
+
+builder.Services.AddHttpClient(Constants.HttpClientName, client =>
+{
+    client.BaseAddress = new Uri(Constants.BackendAPIBaseAddress);
+});
+
+//builder.Services.AddHttpClient().ConfigureHttpClientDefaults(client =>
+//{
+//    client.ConfigureHttpClient(httpClient =>
+//    {
+//        httpClient.BaseAddress = new("http://apiservice");
+//    });
+//});
+
 var app = builder.Build();
+
+app.MapDefaultEndpoints();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
