@@ -1,24 +1,54 @@
 ﻿@page "/counter/realtime"
 @rendermode InteractiveServer
+@attribute [StreamRendering]
 @inject ICounterService CounterService
+@inject CounterService2 CounterService2
 
-<PageTitle>Counter</PageTitle>
+<PageTitle>ICounterService</PageTitle>
 
-<h1>Counter</h1>
+<h4>ICounterService</h4>
 
 <p role="status">Current count: @CounterService.GetCount()</p>
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
+<ul>
+    <li>builder.Services.AddScoped&lt;ICounterService, CounterService&gt;;</li>
+    @foreach (var msg in CounterService.GetMessages())
+    {
+        <li>@msg</li>
+    }
+</ul>
+
+<h4>CounterService 2</h4>
+
+<p role="status">Current count: @CounterService2.GetCount()</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount2">Click me</button>
+
+<ul>
+    <li>builder.Services.AddSingleton&lt;CounterService2&gt;;</li>
+    @foreach (var msg in CounterService2.GetMessages())
+    {
+        <li>@msg</li>
+    }
+</ul>
+
 @code {
     protected override void OnInitialized()
     {
         CounterService.OnChange += async () => await InvokeAsync(StateHasChanged);
+        CounterService2.OnChange += async () => await InvokeAsync(StateHasChanged);
     }
 
     private void IncrementCount()
     {
         CounterService.IncrementCount();
+    }
+    
+    private void IncrementCount2()
+    {
+        CounterService2.IncrementCount();
     }
 
     public void Dispose()

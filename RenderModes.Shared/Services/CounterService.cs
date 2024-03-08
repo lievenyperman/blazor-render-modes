@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Security.AccessControl;
 
 namespace RenderModes.Shared.Services;
 
@@ -9,16 +8,18 @@ public interface ICounterService
 
     int GetCount();
     void IncrementCount();
+    List<string> GetMessages();
 }
 
 public class CounterService : ICounterService
 {
     private int count;
-    public event Action OnChange;
+    public event Action? OnChange;
+    private List<string> Messages { get; set; } = new();
 
     public CounterService()
     {
-        Debug.WriteLine("Counter service instantiated..,");
+        Messages.Add($"Counter service instantiated at {DateTime.Now}");
     }
 
     public void IncrementCount()
@@ -30,6 +31,11 @@ public class CounterService : ICounterService
     public int GetCount()
     {
         return count;
+    }
+
+    public List<string> GetMessages()
+    {
+        return Messages;
     }
 
     private void NotifyStateChanged() => OnChange?.Invoke();
@@ -37,11 +43,12 @@ public class CounterService : ICounterService
 public class CounterService2 : ICounterService
 {
     private int count;
-    public event Action OnChange;
+    public event Action? OnChange;
+    private List<string> Messages { get; set; } = new();
 
     public CounterService2()
     {
-        Debug.WriteLine("Counter service 2 instantiated..,");
+        Messages.Add($"Counter service 2 instantiated at {DateTime.Now}");
     }
 
     public void IncrementCount()
@@ -54,6 +61,11 @@ public class CounterService2 : ICounterService
     public int GetCount()
     {
         return count;
+    }
+
+    public List<string> GetMessages()
+    {
+        return Messages;
     }
 
     private void NotifyStateChanged() => OnChange?.Invoke();

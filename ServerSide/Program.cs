@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-//builder.Services.AddSingleton<ICounterService, CounterService2>();
+builder.Services.AddSingleton<CounterService2>();
 builder.Services.AddScoped<ICounterService, CounterService>();
 
 builder.Services.AddHttpClient(Constants.HttpClientName, client =>

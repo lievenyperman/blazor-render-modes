@@ -64,8 +64,22 @@ else
     </table>
 }
 
+<EditForm Model="@NewTodo" OnValidSubmit="@OnValidTodoSubmit" FormName="CreateTodo">
+    <p>To do: <InputText @bind-Value="@NewTodo.Title" /></p>
+    <p>Completed <InputCheckbox @bind-Value="@NewTodo.IsComplete" /></p>
+    <button type="submit">Add</button>
+</EditForm>
+
+<EditForm Model="@NewWeatherForecast" OnValidSubmit="@OnValidWeatherForecastSubmit" FormName="CreateWeatherForecast">
+    <p>Summary: <InputText @bind-Value="@NewWeatherForecast.Summary" /></p>
+</EditForm>
+
+ 
 @inject IHttpClientFactory HttpClientFactory
 @code {
+    [SupplyParameterFromForm(FormName = "CreateTodo")] public Todo NewTodo { get; set; } = new Todo();
+    [SupplyParameterFromForm(FormName = "CreateWeatherForecast")] public WeatherForecast NewWeatherForecast { get; set; } = new WeatherForecast();
+
     private WeatherForecast[]? forecasts;
     private Todo[]? todos;
 
@@ -86,9 +100,20 @@ else
             TemperatureC = Random.Shared.Next(-20, 55),
             Summary = summaries[Random.Shared.Next(summaries.Length)]
         }).ToArray();
+
     }
 
-    private class WeatherForecast
+    private async Task OnValidTodoSubmit(EditContext todoContext)
+    {
+    }
+
+    private void OnValidWeatherForecastSubmit(EditContext weatherContext)
+    {
+        forecasts.Append(NewWeatherForecast);
+    }
+
+
+    public class WeatherForecast
     {
         public DateOnly Date { get; set; }
         public int TemperatureC { get; set; }
